@@ -18,9 +18,14 @@
 }
 
 .divWatchesDetails {
+    width: 720px;
+    
     clear: both;
     float: left;
-    padding: 10px 10px 10px 10px;
+    padding: 5px 10px 10px 10px;
+    margin-top: 10px;
+    
+    border: #6E6C64 1px solid;
 }
 
 img.imgWatchesPicture {

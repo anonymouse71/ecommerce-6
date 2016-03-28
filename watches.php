@@ -126,7 +126,7 @@
                             </div>
 
                             <div class="divWatchesDetails">
-                                <p class="pProductDetailTitle">Mô tả sản phẩm</p>
+                                <p class="pProductDetailTitle" style="margin-top: 5px;">Mô tả sản phẩm</p>
                                 <pre class="preWatchesDetails"><?php echo $watches['Details']; ?></pre>
                             </div>
                         </article>

@@ -33,7 +33,6 @@
             $result = mysqli_query($con, $sql);
             $rows = mysqli_fetch_array($result, MYSQLI_ASSOC);
             if (mysqli_num_rows($result) == 1) {
-                ///session_register("user_Email");
                 $_SESSION['userId'] = $rows['Id'];
                 $_SESSION['email'] = $rows['Email'];
                 $_SESSION['name'] = $rows['Name'];
