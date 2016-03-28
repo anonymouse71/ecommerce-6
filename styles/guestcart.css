@@ -1,0 +1,24 @@
+.tableCart {
+    border-color: goldenrod;
+    border-width: thin;
+}
+.tableCart tr#trTop_TableCart {
+    background: #000;
+    color: goldenrod;
+}
+
+.tableCart tr#trBottom_TableCart {
+    background: #000;
+    color: goldenrod;
+    /*border: none;*/
+}
+
+.tableCart tr#trBottom_TableCart td {
+    border: none;
+}
+
+.tableCart th {
+    text-align: center;
+    font-size: 14px;
+    
+}

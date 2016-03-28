@@ -1,0 +1,10 @@
+.tableFeedback {
+    width: 600px;
+    border: none;
+    
+}
+
+.pResultFeedback {
+    color: red;
+    font-style: italic;
+}
