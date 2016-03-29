@@ -13,30 +13,42 @@ function getCountProducts() {
 }
 
 /// Get user's infors
-$user = '';
+$admin = '';
+$account = '';
 if (isset($_SESSION['userId'])) 
 {
-    $user = getUserById($con, $_SESSION['userId']);
+    $admin = getUserById($con, $_SESSION['userId']);
+    
+    if (isset($_GET['id']) && intval($admin['Admin']) === 1) {
+        $account = getUserById($con, $_GET['id']);
+    }
+    else {
+        header("Location: 404.php");
+    }
 } 
 else {
     header("Location: login.php");
 }
 
 /// Update user's infos
-$result = NULL;
+$resultUpdate = NULL;
 if (isset($_SESSION['userId'])) {
     if (isset($_POST['txtAddress'])) {
-        $userId = $user['Id'];
-        $userSex = $_POST['txtSex'];
-        $userDoB = $_POST['txtDoB'];
-        $userIdCard = $_POST['txtIdCard'];
-        $userAddress = $_POST['txtAddress'];
-        $userPhone = $_POST['txtPhone'];
+        $accountId = $account['Id'];
+        $accountSex = $_POST['txtSex'];
+        $accountDoB = $_POST['txtDoB'];
+        $accountIdCard = $_POST['txtIdCard'];
+        $accountAddress = $_POST['txtAddress'];
+        $accountPhone = $_POST['txtPhone'];
 
-        $sql = "UPDATE `users` SET `Sex`='$userSex', `DoB`='$userDoB', `IdCard`='$userIdCard', `Address`='$userAddress',`Phone`='$userPhone' WHERE Id='$userId'";
-        $result = mysqli_query($con, $sql);
-        if ($result) {
-            $user = getUserById($con, $_SESSION['userId']);
+        $sql = "UPDATE `users` SET `Sex`='$accountSex', "
+                . "`DoB`='$accountDoB', `IdCard`='$accountIdCard', "
+                . "`Address`='$accountAddress',`Phone`='$accountPhone' "
+                . "WHERE Id='$accountId'";
+        $resultUpdate = mysqli_query($con, $sql);
+        
+        if ($resultUpdate) {
+            $account = getUserById($con, $accountId);
         }
     }
 }
@@ -47,7 +59,7 @@ if (isset($_SESSION['userId'])) {
     <!-- Head HTML -->
     <head>
         <meta charset="utf-8">
-        <title>Thông tin khách hàng</title>
+        <title>Thông tin tài khoản</title>
         <link href="styles/site.css" rel="stylesheet" type="text/css">
         <link href="styles/usercontrolGuest.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="javascript.js"></script>
@@ -80,38 +92,38 @@ if (isset($_SESSION['userId'])) {
                                     <table>
                                         <tr>
                                             <td width="160px">Email: </td>
-                                            <td><?php echo $user['Email']; ?></td>
+                                            <td><?php echo $account['Email']; ?></td>
                                         </tr> 
                                         <tr>
                                             <td>Họ tên: </td>
-                                            <td><?php echo $user['Name']; ?></td>
+                                            <td><?php echo $account['Name']; ?></td>
                                         </tr> 
                                         <tr>
                                             <td>Giới tính: </td>
                                             <td>
-                                                <input type="radio" name="txtSex" value="0" <?php if (intval($user['Sex'])===0) {echo "checked=''";} ?>/> Nam &nbsp;
-                                                <input type="radio" name="txtSex" value="1" <?php if (intval($user['Sex'])!=0) {echo "checked=''";} ?>/> Nữ 
+                                                <input type="radio" name="txtSex" value="0" <?php if (intval($account['Sex'])===0) {echo "checked=''";} ?>/> Nam &nbsp;
+                                                <input type="radio" name="txtSex" value="1" <?php if (intval($account['Sex'])!=0) {echo "checked=''";} ?>/> Nữ 
                                             </td>
                                         </tr> 
                                         <tr>
                                             <td>Ngày sinh: </td>
                                             <td>
-                                                <input type="date" name="txtDoB" value="<?php echo $user['DoB']; ?>" required="" />
+                                                <input type="date" name="txtDoB" value="<?php echo $account['DoB']; ?>" required="" />
                                             </td>
                                         </tr> 
                                         <tr>
                                             <td>Chứng minh thư: </td>
                                             <td>
-                                                <input type="text" name="txtIdCard" value="<?php echo $user['IdCard']; ?>" size="30" required="" />
+                                                <input type="text" name="txtIdCard" value="<?php echo $account['IdCard']; ?>" size="30" required="" />
                                             </td>
                                         </tr> 
                                         <tr>
                                             <td>Địa chỉ: </td>
-                                            <td><input type="text" name="txtAddress" value="<?php echo $user['Address']; ?>" size="30" required="" /></td>
+                                            <td><input type="text" name="txtAddress" value="<?php echo $account['Address']; ?>" size="30" required="" /></td>
                                         </tr> 
                                         <tr>
                                             <td>Số điện thoại: </td>
-                                            <td><input type="text" name="txtPhone" value="<?php echo $user['Phone']; ?>" size="30" required="" /></td>
+                                            <td><input type="text" name="txtPhone" value="<?php echo $account['Phone']; ?>" size="30" required="" /></td>
                                         </tr> 
                                         <tr>
                                             <td></td>
@@ -123,7 +135,7 @@ if (isset($_SESSION['userId'])) {
                                 <?php
                                 if (isset($_SESSION['userId'])) {
                                     if (isset($_POST['txtAddress'])) {
-                                        if ($result) {
+                                        if ($resultUpdate) {
                                 ?>
                                     <p class="pResultLogin">Cập nhập thông tin thành công.</p>
                                 <?php
@@ -152,36 +164,36 @@ if (isset($_SESSION['userId'])) {
                                     <!-- Orders List -->
                                     <?php
                                     /// Get user's orders
-                                    if (isset($_SESSION['userId']))
-                                    {
-                                        $sql = "SELECT * FROM `orders` WHERE UserId = ".$user['Id']." ORDER BY Id DESC";
+
+                                        $sql = "SELECT * FROM `orders` WHERE UserId = ".$account['Id']." ORDER BY Id DESC";
                                         $result = mysqli_query($con, $sql);
                                         if (mysqli_num_rows($result) >= 1) {
                                             while ($row = mysqli_fetch_assoc($result)) {
+                                                $order = getOrderById($con, $row['Id']);
                                     ?>
                                     <tr>
                                         <td>
-                                            <a class="aContent" href="orderdetails.php?id=<?php echo $row['Id']; ?>"><?php echo $row['Id']; ?></a>
+                                            <a class="aContent" href="orderdetails.php?id=<?php echo $order['Id']; ?>"><?php echo $order['Id']; ?></a>
                                         </td>
                                         <td>
-                                            <?php echo $row['CreateTime']; ?>
+                                            <?php echo $order['CreateTime']; ?>
                                         </td>
                                         <td>
-                                            <?php echo $user['Name']; ?>
+                                            <?php echo $order['Name']; ?>
                                         </td>
                                         <td>
                                             <span class="spanProductPrice">
-                                            <?php echo getOrderTotal($con, $row['Id'])." VNĐ"; ?>
+                                            <?php echo getOrderTotal($con, $order['Id'])." VNĐ"; ?>
                                             </span>
                                         </td>
                                         <td>
-                                            <?php echo getOrderStatus($con, $row['Status']); ?>
+                                            <?php echo getOrderStatus($con, $order['Status']); ?>
                                         </td>
                                     </tr>
                                     <?php
                                             }
                                         }
-                                    }
+                    
                                     ?>
                                 </table>
                             </section>

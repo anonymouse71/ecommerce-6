@@ -1,59 +1,35 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <style>
-            #container3 {
-                float:left;
-                width:100%;
-                background:green;
-                position: initial;
-                left: 0%;
-                
+<div class="divGuestCart">
+    <?php
+        if (isset($_SESSION['userId']) && $_SESSION['userId'] != '') 
+        {
+    ?>
+    
+        <?php
+            if (getUserById($con, $_SESSION['userId'])['Admin'] != 1) 
+            {
+        ?>
+            <a href="usercontrolGuest.php">Chào <span id="txtGuestName"><?php echo $_SESSION['name']; ?></span></a>
+        <?php
+            } 
+            else 
+            {
+        ?>
+            <a href="admincontrol.php">Chào <span id="txtGuestName"><?php echo $_SESSION['name']; ?></span></a>
+        <?php
             }
-            #container2 {
-                float:left;
-                width:100%;
-                background:yellow;
-                position:absolute;
-                left:0%;
-            }
-            #container1 {
-                float:left;
-                width:100%;
-                background:red;
-                position:absolute;
-                left:0%;
-            }
-            #col1 {
-                float:left;
-                width:30%;
-            }
-            #col2 {
-                float:left;
-                width:40%;
-            }
-            #col3 {
-                float:left;
-                width:30%;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="container3">
-            <div id="container2">
-                <div id="container1">
-                    <div id="col1">Column 1</div>
-                    <div id="col2">Column 2</div>
-                    <div id="col3">Column 3</div>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+        ?>
+            <a href="logout.php">(Đăng xuất)</a> <br>
+        
+    <?php
+        } 
+        else
+        {
+    ?>
+        <a href="login.php">Đăng nhập</a> <span style="color:#FFF">|</span>
+        <a href="register.php">Đăng ký</a> <br>
+    <?php
+        }
+    ?>
+        
+    <a href="guestcart.php">Giỏ hàng của bạn: <span id="txtCountGuestCart"><?php echo getCountProducts(); ?></span> sản phẩm</a>
+</div>

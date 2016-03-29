@@ -20,5 +20,14 @@
 .tableCart th {
     text-align: center;
     font-size: 14px;
-    
+}
+
+.btnOrder {
+    height: 30px;
+    width: 100px;
+}
+
+.pResultLogin {
+    color: darkred;
+    font-style: italic;
 }

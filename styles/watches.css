@@ -22,10 +22,41 @@
     
     clear: both;
     float: left;
-    padding: 5px 10px 10px 10px;
+    padding: 0px 0px 0px 0px;
     margin-top: 10px;
     
     border: #6E6C64 1px solid;
+    vertical-align: top;
+}
+
+.divProdutDetailTitle {
+    width: 710px;
+    height: auto;
+    
+    background-color: #000;
+    
+    margin-top: 0px;
+    margin-bottom: 0px;
+    
+    color: goldenrod;
+    
+    padding-left: 10px;
+    padding-right: 0xp;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.pProductDetailTitle {
+    font-size: 16px;
+    font-weight: bold;
+    
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.divProductDetails {
+    clear: both;
+    padding: 5px 10px 10px 20px;
 }
 
 img.imgWatchesPicture {
@@ -71,11 +102,6 @@ p#pProductName {
     
     padding: 10px 10px 10px 10px;
     text-align: left;
-}
-
-.pProductDetailTitle {
-    font-size: 16px;
-    font-weight: bold;
 }
 
 pre {
